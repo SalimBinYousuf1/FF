@@ -304,12 +304,19 @@ private fun ActionChip(
 /* ─── Queue sheet ─────────────────────────────────────────────────────────────── */
 @Composable
 private fun QueueSheet(state: PlayerState, vm: PlayerViewModel, onDismiss: () -> Unit) {
+    val favIds by vm.favIds.collectAsState()
     Box(Modifier.fillMaxSize().background(LucidColors.Void)) {
         Column(Modifier.fillMaxSize().statusBarsPadding()) {
-            Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier.fillMaxWidth().padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 GlowIconButton(Icons.Rounded.ArrowBack, "Back", onDismiss)
-                Text("Up Next", style = MaterialTheme.typography.titleLarge, color = LucidColors.Text100, fontWeight = FontWeight.Bold)
-                Text("${state.queue.size} songs", style = MaterialTheme.typography.labelMedium, color = LucidColors.Text50)
+                Text("Up Next", style = MaterialTheme.typography.titleLarge,
+                    color = LucidColors.Text100, fontWeight = FontWeight.Bold)
+                Text("${state.queue.size} songs",
+                    style = MaterialTheme.typography.labelMedium, color = LucidColors.Text50)
             }
             GradientDivider()
             LazyColumn {
@@ -317,9 +324,26 @@ private fun QueueSheet(state: PlayerState, vm: PlayerViewModel, onDismiss: () ->
                     SongRow(
                         song = song,
                         isPlaying = index == state.currentIndex,
-                        isFav = false,
+                        isFav = song.id in favIds,
                         onPlay = { vm.playSong(song, state.queue) },
-                        onFav = {}
+                        onFav = { vm.toggleFav(song.id) },
+                        modifier = Modifier.combinedClickable(
+                            onClick = { vm.playSong(song, state.queue) },
+                            onLongClick = { vm.removeFromQueue(index) }
+                        )
+                    )
+                    if (index < state.queue.size - 1)
+                        GradientDivider(Modifier.padding(start = 84.dp))
+                }
+                // Add all songs not in queue section
+                item {
+                    Spacer(Modifier.height(8.dp))
+                    GradientDivider()
+                    Text(
+                        "Add to Queue",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = LucidColors.Text50,
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
                     )
                 }
             }
