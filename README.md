@@ -1,123 +1,122 @@
-# 🎵 Lucid Player
+# 🎵 VibePlayer
 
-<div align="center">
+A modern, sleek Android music player built with Jetpack Compose, Material 3, and Media3 ExoPlayer.
 
-**AMOLED Dark • Glassmorphism • Auto-builds on every push**
-
-[![CI/CD](https://github.com/YOUR_USERNAME/LucidPlayer/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_USERNAME/LucidPlayer/actions)
-[![API 26+](https://img.shields.io/badge/API-26%2B-brightgreen)](https://android-arsenal.com/api?level=26)
-[![Kotlin 2.0](https://img.shields.io/badge/Kotlin-2.0-blue)](https://kotlinlang.org)
-
-</div>
-
----
-
-## ⚡ Auto-Build: Push → APK in 4 minutes
-
-> **Zero setup required.** Every push to `main` automatically:
-> 1. Builds a signed APK (auto-generates keystore, no secrets needed)
-> 2. Creates a GitHub Release with the APK attached
-> 3. Available for download immediately
-
-```
-git push origin main
-           ↓  (4 minutes)
-GitHub Release → LucidPlayer-release.apk  ✅
-```
-
----
-
-## 🚀 Quick Start
-
-```bash
-# 1. Clone
-git clone https://github.com/YOUR_USERNAME/LucidPlayer.git
-cd LucidPlayer
-
-# 2. Push to YOUR GitHub (creates auto-release)
-git remote set-url origin https://github.com/YOUR_USERNAME/LucidPlayer.git
-git push -u origin main
-
-# 3. Watch it build → Actions tab → Download APK from Releases
-```
-
-That's it. **No secrets, no keystore setup, no tags needed.**
-
----
-
-## 📲 Install APK
-
-1. Go to your repo **Releases** tab
-2. Download `app-release.apk`  
-3. On Android: **Settings → Security → Install Unknown Apps → ON**
-4. Open APK → Install
+[![Build APK](https://github.com/YOUR_USERNAME/VibePlayer/actions/workflows/build.yml/badge.svg)](https://github.com/YOUR_USERNAME/VibePlayer/actions/workflows/build.yml)
 
 ---
 
 ## ✨ Features
 
-| Feature | Detail |
-|---------|--------|
-| 🎵 **Full Playback** | Media3 ExoPlayer, gapless, background |
-| 🎨 **AMOLED UI** | Pure black + electric indigo glassmorphism |
-| 💿 **Spinning Vinyl** | Animated record on Now Playing |
-| ⏱️ **Sleep Timer** | 5 / 10 / 15 / 30 / 45 / 60 min |
-| ⚡ **Speed Control** | 0.5× – 2.0× playback |
-| 📋 **Queue** | Full playback queue view |
-| ❤️ **Favourites** | One-tap save, dedicated section |
-| 🔀 **Shuffle + Repeat** | Off / All / One |
-| 🔍 **Live Search** | Real-time across songs, artists, albums |
-| 🎤 **Artists** | Colour-coded gradient avatars |
-| 💿 **Albums Grid** | 2-col artwork grid |
-| 📱 **Notification** | Full media controls in notification bar |
-| ▶️ **Mini Player** | Persistent bar with previous/play/next |
+| Feature | Description |
+|---------|-------------|
+| 🎵 Local Playback | Plays all local audio files (MP3, FLAC, AAC, OGG, WAV) |
+| 🎨 Material 3 UI | Dynamic color theming with dark/light mode |
+| 🎛️ Full Player | Animated full-screen player with blurred album art background |
+| 📚 Library | Songs, Albums, Artists, Playlists tabs |
+| 🔍 Search | Real-time search across songs, artists, albums |
+| ❤️ Favorites | Favorite songs for quick access |
+| 🔁 Repeat & Shuffle | Per-song, all, or off repeat; shuffle queue |
+| 📋 Playlists | Create, manage, and delete playlists |
+| 🔔 Notifications | Media controls in notification shade |
+| 🎧 Background Play | Continuous playback with foreground service |
+| 📊 Play Count | Tracks most played songs |
+| 🕐 Recently Played | Quick access to recently listened songs |
+| ⚙️ Settings | Theme, dynamic color, library preferences |
 
 ---
 
-## 🏗️ Architecture
+## 🏗️ Tech Stack
+
+| Library | Purpose |
+|---------|---------|
+| **Kotlin** | Primary language |
+| **Jetpack Compose** | Declarative UI |
+| **Material 3** | Design system |
+| **Media3 ExoPlayer** | Audio playback engine |
+| **Media3 Session** | Background playback & notification controls |
+| **Hilt** | Dependency injection |
+| **Room** | Local database (songs, playlists) |
+| **DataStore** | User preferences |
+| **Coil** | Image loading (album art) |
+| **Accompanist** | Permissions handling |
+| **Coroutines + Flow** | Async operations |
+| **Navigation Compose** | In-app navigation |
+
+---
+
+## 📁 Project Structure
 
 ```
-app/
-├── di/             Hilt modules (ExoPlayer singleton)
+app/src/main/java/com/vibeplayer/
 ├── data/
-│   ├── models/     Song, Album, Artist, PlayerState
-│   └── repository/ MusicRepository (MediaStore)
-├── service/        MusicService (Media3 foreground)
-├── viewmodel/      PlayerViewModel (sleep timer, speed, queue)
-└── ui/
-    ├── theme/      AMOLED colors, typography
-    ├── components/ GlassCard, SongRow, MiniPlayer, PlayingBars
-    └── screens/    Home, Library, Artists, Search, NowPlaying
+│   ├── local/           # Room DB, DAOs, MediaStore scanner, DataStore
+│   ├── model/           # Song, Album, Artist, Playlist, PlayerState models
+│   └── repository/      # MusicRepository (single source of truth)
+├── di/                  # Hilt dependency injection modules
+├── service/             # MusicPlaybackService (Media3 SessionService)
+├── ui/
+│   ├── components/      # Reusable Composables (SongItem, MiniPlayer, AlbumArt...)
+│   ├── navigation/      # NavHost & Screen routes
+│   ├── screens/
+│   │   ├── home/        # Home screen with recommendations
+│   │   ├── player/      # Full-screen player
+│   │   ├── library/     # Songs/Albums/Artists/Playlists tabs
+│   │   ├── search/      # Real-time search
+│   │   └── settings/    # App settings
+│   ├── Theme.kt         # Material 3 color schemes
+│   └── Typography.kt    # Text styles
+├── viewmodel/           # PlayerViewModel, LibraryViewModel, SearchViewModel
+├── MainActivity.kt
+└── VibePlayerApp.kt     # Hilt Application class
 ```
 
-**Stack:** Kotlin 2.0 · Jetpack Compose · Media3 · Hilt · Navigation · Coil · Room
-
 ---
 
-## 🔐 Signing (Optional: Use Your Own Keystore)
+## 🚀 Getting Started
 
-By default, CI auto-generates a new keystore each build. For consistent signing:
+### Prerequisites
+- Android Studio Hedgehog or newer
+- Android SDK 35
+- JDK 17
 
-1. **GitHub → Settings → Secrets → Actions** → Add:
-   - `KEYSTORE_BASE64` — `base64 -i your.keystore | pbcopy`
-   - `KEY_ALIAS`
-   - `KEY_PASSWORD`
-   - `STORE_PASSWORD`
-
-2. Push → CI uses your keystore automatically.
-
----
-
-## 🧪 Local Build
-
+### Setup
 ```bash
-./gradlew assembleDebug          # Debug APK
-./gradlew assembleRelease        # Release APK (uses debug keystore locally)
-./gradlew installDebug           # Install on connected device
+git clone https://github.com/YOUR_USERNAME/VibePlayer.git
+cd VibePlayer
+./gradlew assembleDebug
 ```
 
-Requires: JDK 17 · Android SDK 35 · Android Studio Hedgehog+
+Install on device:
+```bash
+adb install app/build/outputs/apk/debug/app-debug.apk
+```
 
 ---
 
-<div align="center">Made with ♥ · Kotlin · Jetpack Compose · Media3</div>
+## 🤖 GitHub Actions (Auto APK Build)
+
+Every push to `main` automatically:
+1. ✅ Runs unit tests
+2. 🏗️ Builds a Debug APK
+3. 📤 Uploads as a downloadable artifact (retained 30 days)
+
+To download: Go to **Actions** → select a workflow run → **Artifacts** section.
+
+### Creating a Release
+Push a version tag to trigger a GitHub Release with APK attached:
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+---
+
+## 📱 Minimum Requirements
+- Android 8.0 (API 26) or higher
+- Storage permission for reading local music files
+
+---
+
+## 📄 License
+MIT License — see [LICENSE](LICENSE) for details.

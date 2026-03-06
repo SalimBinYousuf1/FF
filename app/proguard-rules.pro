@@ -1,5 +1,16 @@
--keep class com.lucid.player.** { *; }
+# Add project specific ProGuard rules here.
+-keep class com.vibeplayer.data.model.** { *; }
 -keep class androidx.media3.** { *; }
--dontwarn androidx.media3.**
--keepattributes *Annotation*
--keepclassmembers class * extends androidx.lifecycle.ViewModel { <init>(...); }
+-keepclassmembers class * extends androidx.room.RoomDatabase { *; }
+
+# Hilt
+-keep class dagger.hilt.** { *; }
+-keep @dagger.hilt.android.HiltAndroidApp class * { *; }
+-keep @dagger.hilt.android.AndroidEntryPoint class * { *; }
+
+# Kotlin Coroutines
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+
+# Coil
+-keep class coil.** { *; }
