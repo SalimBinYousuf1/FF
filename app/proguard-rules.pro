@@ -1,0 +1,5 @@
+-keep class com.lucid.player.** { *; }
+-keep class androidx.media3.** { *; }
+-dontwarn androidx.media3.**
+-keepattributes *Annotation*
+-keepclassmembers class * extends androidx.lifecycle.ViewModel { <init>(...); }
