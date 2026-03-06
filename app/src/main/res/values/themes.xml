@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.VibePlayer" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.VibePlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
     <style name="Theme.VibePlayer.SplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#0D0D14</item>
         <item name="postSplashScreenTheme">@style/Theme.VibePlayer</item>
